@@ -11,6 +11,24 @@ class LogParserSpec extends FlatSpec {
     assert(ip == "121.242.40.10")
   }
 
+  "toRecord" should "Extract Record with hostname" in {
+    val utils = new Utils
+    var line = "uplherc.upl.com - - [01/Aug/1995:00:00:10 -0400] \"GET /images/WORLD-logosmall.gif HTTP/1.0\" 304 0"
+    var record = utils.toRecord(line)
+    assert(record.host == "uplherc.upl.com")
+    assert(record.url == "/images/WORLD-logosmall.gif")
+    assert(record.httpCode == 304)
+  }
+
+  "toRecord" should "Extract Record with ip" in {
+    val utils = new Utils
+    var line = "121.242.40.10 - - [01/Aug/1995:00:00:10 -0400] \"GET /images/WORLD-logosmall.gif HTTP/1.0\" 304 0"
+    var record = utils.toRecord(line)
+    assert(record.host == "121.242.40.10")
+    assert(record.url == "/images/WORLD-logosmall.gif")
+    assert(record.httpCode == 304)
+  }
+
   "CLASSA" should "Return true if class is A" in {
     val utils = new Utils
     assert(utils.isClassA("121.242.40.10 "))
