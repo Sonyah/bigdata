@@ -13,7 +13,6 @@ class Utils extends Serializable {
     def toRecord(line:String):Record = {
         val res = PATTERN.findFirstMatchIn(line)
         if (res.isEmpty) {
-            println("Rejected Line: " + line)
             Record("", "", "",  -1)
         }
         else {
@@ -85,7 +84,7 @@ object EntryPoint {
         var accessLogs = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")
 
         println("===== TOP 10 URLS =====")
-        val urls = utils.getTopNIPs(accessLogs, sc, 10)
+        val urls = utils.getTopNUrls(accessLogs, sc, 10)
         for(i <- urls){
             println(i)
         }
